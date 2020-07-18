@@ -25,6 +25,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     private EditText edtName, edtPunchSpeed, edtPunchPower, edtKickSpeed, edtKickPower;
     private TextView txtGetData;
     private Button btnGetAllData;
+    private Button btnTransition;
 
     private String allKickBoxers;
 
@@ -35,6 +36,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
         btnSave = findViewById(R.id.btnSave);
         btnGetAllData = findViewById(R.id.btnGetAllData);
+        btnTransition = findViewById(R.id.btnNextActivity);
         edtName = findViewById(R.id.edtName);
         edtPunchSpeed = findViewById(R.id.edtPuchSpeed);
         edtPunchPower = findViewById(R.id.edtPunchPower);
@@ -64,13 +66,14 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             public void onClick(View view) {
                 allKickBoxers = "";
                 ParseQuery<ParseObject> queryAll = ParseQuery.getQuery("KickBoxer");
+                queryAll.whereEqualTo("punchSpeed", "3000");
                 queryAll.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
                         if (e == null) {
                             if (objects.size() > 0) {
                                 for (ParseObject kickBoxer : objects) {
-                                    allKickBoxers = allKickBoxers + kickBoxer.get("name") + "- Punch Power = " + kickBoxer.get("punchPower") + "\n";
+                                    allKickBoxers = allKickBoxers + kickBoxer.get("name") + "- Punch Speed = " + kickBoxer.get("punchSpeed") + "\n";
                                 }
                                 FancyToast.makeText(SignUp.this, allKickBoxers, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
                             } else {
@@ -83,6 +86,12 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         });
 
         btnSave.setOnClickListener(SignUp.this);
+        btnTransition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
